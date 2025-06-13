@@ -9,7 +9,6 @@ import LotusPot10PotImg from '../assets/gamle/lotusPot10.webp';
 import MegaPotImg from '../assets/gamle/megapot.webp';
 import BuddhaFacePotImg from '../assets/pots/BuddhaFace.webp';
 import SquareSelfWateringImg from '../assets/pots/SquareSelfWatering.webp';
-import WaterCanImg from '../assets/hardware/WaterCanImg.jpg';
 
 export default [
   
@@ -99,7 +98,7 @@ export default [
 
   // General And Hardware
 
-  { id: 38, name: "Water Can", category: "General & Hardware", price: 16.99, image: WaterCanImg},
+  { id: 38, name: "Water Can", category: "General & Hardware", price: 16.99, image: SquareSelfWateringImg},
   { id: 39, name: "Cutter", category: "General & Hardware", price: 16.99, image: SquareSelfWateringImg },
   { id: 40, name: "Khurpi", category: "General & Hardware", price: 16.99, image: SquareSelfWateringImg },
   { id: 41, name: "Garden Panja", category: "General & Hardware", price: 16.99, image: SquareSelfWateringImg },
