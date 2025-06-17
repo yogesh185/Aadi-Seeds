@@ -5,7 +5,7 @@ export default function ProductCard({ product }) {
       <div className="p-4">
         <div className="font-semibold">{product.name}</div>
         <div className="text-sm text-gray-400">{product.category}</div>
-        <div className="text-primary-600 font-bold mt-1">${product.price}</div>
+        <div className="text-primary-600 font-bold mt-1">₹{product.price}</div>
       </div>
     </div>
   );
