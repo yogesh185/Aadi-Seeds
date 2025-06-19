@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import { CartContext } from "../context/CartContext"; // Import CartContext
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { cartQuantity } = useContext(CartContext); // Get cart quantity from context
 
-  // Optional: Close menu when a link is clicked (for better UX)
   const handleLinkClick = () => setMenuOpen(false);
 
   return (
@@ -13,14 +14,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between h-14 px-4 relative">
         {/* Left: Hamburger (mobile only), Brand */}
         <div className="flex items-center">
-          {/* Animated Hamburger */}
           <button
             className="md:hidden mr-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-primary-600 group"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((prev) => !prev)}
           >
             <div className="w-7 h-7 relative flex flex-col justify-center items-center">
-              {/* Hamburger lines */}
               <span
                 className={`block absolute h-0.5 w-7 bg-primary-600 transform transition duration-300 ease-in-out ${
                   menuOpen ? "rotate-45 top-3.5" : "top-2"
@@ -38,7 +37,6 @@ export default function Navbar() {
               ></span>
             </div>
           </button>
-          {/* Brand Name */}
           <span className="font-bold text-lg text-primary-600 tracking-wide">
             AADI Seeds
           </span>
@@ -78,9 +76,9 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Right: Cart Icon */}
+        {/* Right: Cart Icon as Link */}
         <div className="flex-shrink-0 flex items-center">
-          <button className="relative p-2 rounded-full hover:bg-gray-100 transition">
+          <Link to="/cart" className="relative p-2 rounded-full hover:bg-gray-100 transition" aria-label="Cart">
             <svg
               className="w-6 h-6 text-primary-600"
               fill="none"
@@ -92,13 +90,16 @@ export default function Navbar() {
               <circle cx="9" cy="21" r="1" />
               <circle cx="19" cy="21" r="1" />
             </svg>
-            <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              3
-            </span>
-          </button>
+            {/* Dynamic cart count from context */}
+            {cartQuantity > 0 && (
+              <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                {cartQuantity}
+              </span>
+            )}
+          </Link>
         </div>
 
-        {/* Mobile Menu: Absolutely positioned floating dropdown */}
+        {/* Mobile Menu */}
         <div
           className={`md:hidden absolute left-0 top-full w-full bg-white shadow-lg border-b border-gray-200 transition-all duration-300 z-40 ${
             menuOpen
@@ -143,6 +144,15 @@ export default function Navbar() {
                 onClick={handleLinkClick}
               >
                 Shop
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/cart"
+                className="hover:text-primary-600"
+                onClick={handleLinkClick}
+              >
+                Cart
               </Link>
             </li>
           </ul>

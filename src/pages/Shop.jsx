@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
 import ShopFilters from "../components/ShopFilters";
 import ProductGrid from "../components/ProductGrid";
 import NewsletterSignup from "../components/NewsletterSignup";
-import Footer from "../components/Footer";
 import products from "../utils/products";
 import ShopImg from "../assets/shopImg.jpg";
 
@@ -34,7 +32,6 @@ export default function Shop() {
 
   return (
     <>
-      <Navbar />
       <section
         style={{
           backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(${ShopImg})`,
@@ -72,7 +69,6 @@ export default function Shop() {
         </div>
       )}
       <NewsletterSignup />
-      <Footer />
     </>
   );
 }

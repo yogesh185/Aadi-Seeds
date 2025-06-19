@@ -14,7 +14,7 @@ export default [
   
   // Gamle
 
-  { id: 1, name: "Mega Pot", category: "Gamle", price: 39.99, image: MegaPotImg },
+  { id: 1, name: "Mega Pot", category: "Gamle", price: 39.99, image: MegaPotImg , description: "Aloe Vera is a succulent plant species known for its medicinal properties."},
   { id: 2, name: "Moon Pot", category: "Gamle", price: 29.99, image: "https://placehold.co/300x200?text=Mini+Bonsai" },
   { id: 3, name: "Hilux Pot", category: "Gamle", price: 24.99, image: HilluxPotImg },
   { id: 4, name: "Bail Pot", category: "Gamle", price: 19.99, image: "https://placehold.co/300x200?text=Snake+Plant" },
