@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import products from "../utils/products";
-import { CartContext } from "../context/CartContext"; // Import CartContext
+import { CartContext } from "../context/CartContext";
 
 function getRandomRelated(products, currentId, count = 4) {
   const filtered = products.filter(p => String(p.id) !== String(currentId));
@@ -16,23 +16,52 @@ export default function ProductDetail() {
   const { id } = useParams();
   const product = products.find((p) => String(p.id) === String(id));
   const [quantity, setQuantity] = useState(1);
+  const [selectedSize, setSelectedSize] = useState(null);
   const [related, setRelated] = useState([]);
-  const { addToCart } = useContext(CartContext); // Get addToCart from context
+  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     setRelated(getRandomRelated(products, id));
     setQuantity(1);
+    if (product?.sizes && product.sizes.length > 0) {
+      setSelectedSize(product.sizes[0]);
+    } else {
+      setSelectedSize(null);
+    }
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [id, product]);
 
   if (!product) return <div className="p-8">Product not found.</div>;
 
-  const features = [
-    "High-quality materials",
-    "Easy to care for",
-    "Perfect for indoor use",
-    "Fast shipping available"
-  ];
+  // Show price based on selected size (or base price)
+  const displayPrice = product.sizes && selectedSize
+    ? selectedSize.price
+    : product.price;
+
+  // Add to cart handler
+  const handleAddToCart = () => {
+    if (product.sizes && !selectedSize) {
+      alert("Please select a size.");
+      return;
+    }
+    addToCart(
+      product.sizes
+        ? {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            size: selectedSize.label,    // <-- label as "size"
+            price: selectedSize.price,   // <-- price at top level
+          }
+        : {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+          },
+      quantity
+    );
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen py-6">
@@ -68,7 +97,7 @@ export default function ProductDetail() {
             <span className="text-xs text-gray-500 uppercase">{product.category}</span>
             <h1 className="text-2xl font-bold text-gray-900 mt-1 mb-2">{product.name}</h1>
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-xl font-bold text-green-700">₹{product.price}</span>
+              <span className="text-xl font-bold text-green-700">₹{displayPrice}</span>
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
                 <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -77,14 +106,26 @@ export default function ProductDetail() {
               </span>
             </div>
             <p className="text-gray-700 mb-4">{product.description || "High-quality gardening product perfect for your home or office."}</p>
-            <div className="mb-4">
-              <h3 className="font-semibold mb-2 text-green-700">Features</h3>
-              <ul className="list-disc list-inside text-gray-700 space-y-1">
-                {features.map((feature, idx) => (
-                  <li key={idx}>{feature}</li>
-                ))}
-              </ul>
-            </div>
+            {/* Size Option */}
+            {product.sizes && (
+              <div className="mb-4">
+                <span className="text-sm font-medium text-gray-700">Size:</span>
+                <div className="flex gap-2 mt-2">
+                  {product.sizes.map((sizeObj) => (
+                    <button
+                      key={sizeObj.label}
+                      onClick={() => setSelectedSize(sizeObj)}
+                      className={`px-3 py-1 border rounded transition 
+                        ${selectedSize?.label === sizeObj.label
+                          ? "bg-green-600 text-white border-green-600"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-green-400"}`}
+                    >
+                      {sizeObj.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           {/* Quantity and CTA */}
           <div>
@@ -106,7 +147,7 @@ export default function ProductDetail() {
             </div>
             <button
               className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition mb-2"
-              onClick={() => addToCart(product, quantity)}
+              onClick={handleAddToCart}
             >
               Add to Cart
             </button>
@@ -135,7 +176,9 @@ export default function ProductDetail() {
               <div className="pt-2">
                 <div className="font-semibold text-gray-900 text-sm truncate">{relatedProduct.name}</div>
                 <div className="text-xs text-gray-500 truncate">{relatedProduct.category}</div>
-                <div className="text-green-700 font-bold mt-1 text-sm">₹{relatedProduct.price}</div>
+                <div className="text-green-700 font-bold mt-1 text-sm">
+                  ₹{relatedProduct.sizes ? relatedProduct.sizes[0].price : relatedProduct.price}
+                </div>
               </div>
             </Link>
           ))}

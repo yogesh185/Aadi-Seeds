@@ -6,7 +6,9 @@ import Footer from "./components/Footer";
 import ProductDetail from "./pages/ProductDetail";
 import CartPage from "./pages/CartPage";
 import ScrollToTop from "./components/ScrollToTop"; 
-import { CartProvider } from "./context/CartContext"; 
+import { CartProvider } from "./context/CartContext";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/cart" element={<CartPage />} />
       </Routes>
       <Footer />

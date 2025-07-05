@@ -10,19 +10,37 @@ const categories = ["All", ...Array.from(new Set(products.map((p) => p.category)
 export default function Shop() {
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState("All");
+  const [price, setPrice] = useState("All"); // NEW
   const [page, setPage] = useState(1);
 
   const PRODUCTS_PER_PAGE = 20;
 
-  const filtered = products.filter(
-    (p) =>
-      (cat === "All" || p.category === cat) &&
-      p.name.toLowerCase().includes(search.toLowerCase())
-  );
+  // Filtering logic with price ranges
+  const filtered = products.filter((p) => {
+    // Category filter
+    if (cat !== "All" && p.category !== cat) return false;
+
+    // Search filter
+    if (!p.name.toLowerCase().includes(search.toLowerCase())) return false;
+
+    // Price filter (handles products with sizes)
+    const minPrice = p.sizes && p.sizes.length > 0
+      ? Math.min(...p.sizes.map(s => s.price))
+      : p.price;
+
+    if (price === "under250" && minPrice >= 250) return false;
+    if (price === "250to500" && (minPrice < 250 || minPrice > 500)) return false;
+    if (price === "500to1000" && (minPrice < 500 || minPrice > 1000)) return false;
+    if (price === "1000to2500" && (minPrice < 1000 || minPrice > 2500)) return false;
+    if (price === "2500to5000" && (minPrice < 2500 || minPrice > 5000)) return false;
+    if (price === "above5000" && minPrice <= 5000) return false;
+
+    return true;
+  });
 
   useEffect(() => {
     setPage(1);
-  }, [search, cat]);
+  }, [search, cat, price]);
 
   const totalPages = Math.ceil(filtered.length / PRODUCTS_PER_PAGE);
   const paginatedProducts = filtered.slice(
@@ -48,7 +66,15 @@ export default function Shop() {
           <button className="btn-primary mb-4">Browse All</button>
         </div>
       </section>
-      <ShopFilters search={search} setSearch={setSearch} categories={categories} cat={cat} setCat={setCat} />
+      <ShopFilters
+        search={search}
+        setSearch={setSearch}
+        categories={categories}
+        cat={cat}
+        setCat={setCat}
+        price={price}
+        setPrice={setPrice}
+      />
       <ProductGrid products={paginatedProducts} />
       {/* Pagination Controls */}
       {totalPages > 1 && (

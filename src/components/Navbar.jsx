@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
-import { CartContext } from "../context/CartContext"; // Import CartContext
+import { CartContext } from "../context/CartContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { cartQuantity } = useContext(CartContext); // Get cart quantity from context
+  const { cartQuantity } = useContext(CartContext);
 
   const handleLinkClick = () => setMenuOpen(false);
 
@@ -37,9 +37,9 @@ export default function Navbar() {
               ></span>
             </div>
           </button>
-          <span className="font-bold text-lg text-primary-600 tracking-wide">
+          <Link to="/" className="font-bold text-lg text-primary-600 tracking-wide">
             AADI Seeds
-          </span>
+          </Link>
         </div>
 
         {/* Center: Desktop Menu */}
@@ -76,8 +76,24 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* Right: Cart Icon as Link */}
-        <div className="flex-shrink-0 flex items-center">
+        {/* Right: Login/Signup + Cart Icon */}
+        <div className="flex items-center space-x-4">
+          {/* Desktop only: Login/Signup */}
+          <div className="hidden md:flex items-center space-x-2">
+            <Link
+              to="/login"
+              className="text-sm font-medium text-gray-700 hover:text-primary-600 px-3 py-1 rounded transition"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="text-sm font-medium text-white bg-primary-600 hover:bg-primary-700 px-3 py-1 rounded transition"
+            >
+              Signup
+            </Link>
+          </div>
+          {/* Cart Icon */}
           <Link to="/cart" className="relative p-2 rounded-full hover:bg-gray-100 transition" aria-label="Cart">
             <svg
               className="w-6 h-6 text-primary-600"
@@ -90,7 +106,6 @@ export default function Navbar() {
               <circle cx="9" cy="21" r="1" />
               <circle cx="19" cy="21" r="1" />
             </svg>
-            {/* Dynamic cart count from context */}
             {cartQuantity > 0 && (
               <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                 {cartQuantity}
@@ -146,15 +161,17 @@ export default function Navbar() {
                 Shop
               </Link>
             </li>
+            {/* Mobile only: Login (styled in green, bold) */}
             <li>
               <Link
-                to="/cart"
-                className="hover:text-primary-600"
+                to="/login"
+                className="text-primary-600 font-semibold hover:underline"
                 onClick={handleLinkClick}
               >
-                Cart
+                Login
               </Link>
             </li>
+            {/* No Signup or Cart in mobile menu */}
           </ul>
         </div>
       </div>

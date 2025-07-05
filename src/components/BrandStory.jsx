@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
-import BrandImg from "../assets/brandImg.jpg";
+import BrandImg1 from "../assets/brandImg.jpg";
+import BrandImg2 from "../assets/flowerPot.webp";
+import Carousel from "./Carousel";
 
 export default function BrandStory() {
+  const images = [BrandImg1, BrandImg2];
+
   return (
     <section
       id="brand-section"
@@ -13,7 +17,6 @@ export default function BrandStory() {
         px-4
       "
     >
-      {/* Text Content */}
       <div className="flex-1 w-full md:w-auto text-center md:text-left">
         <h2 className="text-2xl sm:text-3xl font-bold mb-2">
           Our Passion for Green Living
@@ -25,14 +28,8 @@ export default function BrandStory() {
           Learn More
         </Link>
       </div>
-      {/* Image */}
       <div className="flex-1 flex justify-center items-center w-full md:w-auto">
-        <img
-          src={BrandImg}
-          alt="Our Story"
-          className="rounded-lg bg-gray-100 shadow-md w-full max-w-xs sm:max-w-sm md:max-w-xs lg:max-w-sm h-auto object-cover"
-          style={{ aspectRatio: "3/4" }}
-        />
+        <Carousel images={images} />
       </div>
     </section>
   );
