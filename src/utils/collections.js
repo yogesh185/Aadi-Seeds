@@ -1,8 +1,15 @@
+import GamleImg from '../assets/Gamle.webp';
+import DecorativeImg from '../assets/DecorativePots.webp';
+import ChemicalImg from '../assets/Chemical.webp';
+import SeedsImg from '../assets/Seeds.webp';
+import HardwareImg from '../assets/HardwareImg.webp';
+import PlantsImg from '../assets/Plants.webp';
+
 export default [
-  { id: 1, name: "Gamle", image: "https://placehold.co/400x200?text=Gamle+and+Pots" },
-  { id: 2, name: "Pots & Decoratives", image: "https://placehold.co/400x200?text=Decorative+Pots" },
-  { id: 3, name: "Seeds", image: "https://placehold.co/400x200?text=Flower+Seeds" },
-  { id: 4, name: "Organic & Chemicals", image: "https://placehold.co/400x200?text=Organic+and+Chemicals" },
-  { id: 5, name: "General & Hardware", image: "https://placehold.co/400x200?text=General+and+Hardware" },
-  { id: 6, name: "Plants", image: "https://placehold.co/400x200?text=General+and+Hardware" }
+  { id: 1, name: "Gamle", image: GamleImg },
+  { id: 2, name: "Pots & Decoratives", image: DecorativeImg },
+  { id: 3, name: "Seeds", image: SeedsImg },
+  { id: 4, name: "Organic & Chemicals", image: ChemicalImg },
+  { id: 5, name: "General & Hardware", image: HardwareImg },
+  { id: 6, name: "Plants", image: PlantsImg }
 ];

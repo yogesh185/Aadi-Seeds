@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import ShopFilters from "../components/ShopFilters";
 import ProductGrid from "../components/ProductGrid";
 import NewsletterSignup from "../components/NewsletterSignup";
 import products from "../utils/products";
 import ShopImg from "../assets/shopImg.jpg";
 
+// Generate unique category list
 const categories = ["All", ...Array.from(new Set(products.map((p) => p.category)))];
 
 export default function Shop() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const initialCategory = queryParams.get("category") || "All";
+
   const [search, setSearch] = useState("");
-  const [cat, setCat] = useState("All");
-  const [price, setPrice] = useState("All"); // NEW
+  const [cat, setCat] = useState(initialCategory);
+  const [price, setPrice] = useState("All");
   const [page, setPage] = useState(1);
 
   const PRODUCTS_PER_PAGE = 20;
 
-  // Filtering logic with price ranges
+  // Filter products based on search, category, and price
   const filtered = products.filter((p) => {
     // Category filter
     if (cat !== "All" && p.category !== cat) return false;
@@ -23,9 +30,9 @@ export default function Shop() {
     // Search filter
     if (!p.name.toLowerCase().includes(search.toLowerCase())) return false;
 
-    // Price filter (handles products with sizes)
+    // Price filter (with size logic)
     const minPrice = p.sizes && p.sizes.length > 0
-      ? Math.min(...p.sizes.map(s => s.price))
+      ? Math.min(...p.sizes.map((s) => s.price))
       : p.price;
 
     if (price === "under250" && minPrice >= 250) return false;
@@ -38,9 +45,14 @@ export default function Shop() {
     return true;
   });
 
+  // Reset page and apply category from query string if needed
   useEffect(() => {
     setPage(1);
-  }, [search, cat, price]);
+    const newCategory = queryParams.get("category");
+    if (newCategory && newCategory !== cat) {
+      setCat(newCategory);
+    }
+  }, [search, price, location.search]);
 
   const totalPages = Math.ceil(filtered.length / PRODUCTS_PER_PAGE);
   const paginatedProducts = filtered.slice(
@@ -66,6 +78,7 @@ export default function Shop() {
           <button className="btn-primary mb-4">Browse All</button>
         </div>
       </section>
+
       <ShopFilters
         search={search}
         setSearch={setSearch}
@@ -75,7 +88,9 @@ export default function Shop() {
         price={price}
         setPrice={setPrice}
       />
+
       <ProductGrid products={paginatedProducts} />
+
       {/* Pagination Controls */}
       {totalPages > 1 && (
         <div className="flex justify-center gap-2 my-8">
@@ -94,6 +109,7 @@ export default function Shop() {
           ))}
         </div>
       )}
+
       <NewsletterSignup />
     </>
   );

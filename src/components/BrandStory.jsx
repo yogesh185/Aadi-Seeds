@@ -19,10 +19,10 @@ export default function BrandStory() {
     >
       <div className="flex-1 w-full md:w-auto text-center md:text-left">
         <h2 className="text-2xl sm:text-3xl font-bold mb-2">
-          Our Passion for Green Living
+          Transform Your Spaces with Aadi Seeds
         </h2>
         <p className="text-gray-500 mb-4 max-w-xl mx-auto md:mx-0">
-          At Aadi Seeds, we believe in the power of plants to transform any space. Our mission is to bring you the healthiest, happiest plants and the knowledge to care for them.
+         At Aadi Seeds, we offer customized greening solutions for every environment-from gardens, terraces, and balconies to living rooms, offices, and farmhouses. Our wide range includes both vibrant live plants and elegant, low-maintenance artificial lanters and green panels. Whether you're looking to enhance your home or elevate a commercial space, we bring beauty, freshness, and functionality to every corner. Aadi Seeds - Greening Lives, Beautifully.
         </p>
         <Link to="/about" className="btn-secondary">
           Learn More
